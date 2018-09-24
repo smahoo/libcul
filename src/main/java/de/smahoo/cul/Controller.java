@@ -46,7 +46,11 @@ public class Controller {
   protected List<ControllerEventListener> controllerEventListeners = new ArrayList();
   protected DeviceFactory deviceFactory = new DeviceFactory(this);
 
-  
+
+  public Controller() {
+    this.dataConnection = new DataConnection(this);
+  }
+
   public boolean isConnected() {
     if (this.dataConnection != null) {
       return this.dataConnection.isConnected();
@@ -66,7 +70,7 @@ public class Controller {
   }
 
   
-  public void init(InputStream in, OutputStream out, int paramInt) throws Exception {
+  public void init(InputStream in, OutputStream out) throws Exception {
     this.dataConnection.connect(in, out);
     this.dataConnection.sendLine("V");
     this.controllerVersion = evaluateVersionMsg(this.dataConnection.readLine());
